@@ -38,11 +38,21 @@ namespace ConsoleApp1
                 client.DownloadFile(link,FileName);
             }
 
-            File.Move(files[3], $"{destination}{Path.GetFileName(files[3])}");
 
             foreach (string file in files)
             {
-                Console.WriteLine(Path.GetFileName(file));
+                //Console.WriteLine(Path.GetFileName(file));
+                try
+                {
+                    if(Path.GetFileName(file)==FileName)
+                    {
+                        File.Move(file, $"{destination}{Path.GetFileName(file)}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
             //Console.WriteLine(Path.GetFileName(files[3]));
 
