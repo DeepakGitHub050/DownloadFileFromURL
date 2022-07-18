@@ -37,13 +37,14 @@ namespace ConsoleApp1
             {
                 client.DownloadFile(link,FileName);
             }
+
             File.Move(files[3], $"{destination}{Path.GetFileName(files[3])}");
 
             foreach (string file in files)
             {
                 Console.WriteLine(Path.GetFileName(file));
             }
-            Console.WriteLine(Path.GetFileName(files[3]));
+            //Console.WriteLine(Path.GetFileName(files[3]));
 
             Console.ReadKey();
         }
