@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace ConsoleApp1
 {
@@ -12,20 +13,38 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            string link = "", FileName = "";
+            XmlTextReader xtr = new XmlTextReader(@"D:\test\XMLFile1.xml");
+            while(xtr.Read())
+            {
+                if(xtr.NodeType == XmlNodeType.Element & xtr.Name == "link") 
+                {
+                    string s1 = xtr.ReadElementContentAsString();
+                    link = s1;
+                }
+                if (xtr.NodeType == XmlNodeType.Element & xtr.Name == "FileName")
+                {
+                    string s2 = xtr.ReadElementContentAsString();
+                    FileName = s2;
+                }
+            }
+
             string rootPath = @"D:\ASP.NET Web API\ConsoleApp1\ConsoleApp1\bin\";
             string destination = @"D:\test\";
             string[] files = Directory.GetFiles(rootPath, "*", SearchOption.AllDirectories);
-            /*foreach (string dirPath in dir)
-            {
-                Console.WriteLine(Path.GetFileName(dirPath));
-            }*/
-            //Console.WriteLine(Path.GetFileName(dir[3]));
 
-            /*using (var client = new WebClient())
+            using (var client = new WebClient())
             {
-                client.DownloadFile("https://thumbs.dreamstime.com/z/lord-ganesha-dancing-6439542.jpg", "Ganesh.jpg");
-            }*/
-            File.Copy(files[3], $"{destination}{Path.GetFileName(files[3])}");
+                client.DownloadFile(link,FileName);
+            }
+            File.Move(files[3], $"{destination}{Path.GetFileName(files[3])}");
+
+            foreach (string file in files)
+            {
+                Console.WriteLine(Path.GetFileName(file));
+            }
+            Console.WriteLine(Path.GetFileName(files[3]));
+
             Console.ReadKey();
         }
     }
